@@ -1,0 +1,6 @@
+ipykernel
+jupyterlab
+matplotlib
+numpy
+pillow
+requests
