@@ -23,15 +23,15 @@ PHRASE = "сәулем мен сені сүйемін"
 FONT_NAME = "Arial"
 FONT_PATH = Path(r"C:\Windows\Fonts\arial.ttf")
 FONT_SIZE = 52
-LINE_CANVAS_SIZE = (1800, 240)
 SYMBOL_CANVAS_SIZE = (256, 256)
 THRESHOLD = 200
 SYMBOL_PADDING = 4
-PROFILE_THRESHOLD = 1
+PROFILE_THRESHOLD = 2
 PREVIEW_PADDING = 12
 
 BASE_DIR = Path(__file__).resolve().parent
 SOURCE_DIR = BASE_DIR / "source_bmp"
+SOURCE_BMP_PATH = SOURCE_DIR / "phrase_variant17.bmp"
 PREVIEW_DIR = BASE_DIR / "preview_png"
 PROFILES_DIR = BASE_DIR / "profiles_png"
 SEGMENTS_DIR = BASE_DIR / "segmented_symbols_png"
@@ -82,19 +82,18 @@ def load_font() -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT_PATH), FONT_SIZE)
 
 
-def render_phrase_line(text: str, font: ImageFont.FreeTypeFont) -> np.ndarray:
-    image = Image.new("L", LINE_CANVAS_SIZE, 255)
-    draw = ImageDraw.Draw(image)
-    bbox = draw.textbbox((0, 0), text, font=font)
-    x = 20 - bbox[0]
-    y = 20 - bbox[1]
-    draw.text((x, y), text, font=font, fill=0)
+def load_phrase_bmp(path: Path) -> np.ndarray:
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Не найден исходный файл {path}. Подготовьте фразу в Microsoft Word и сохраните "
+            "её в монохромный BMP без лишнего белого фона."
+        )
 
-    arr = np.array(image, dtype=np.uint8)
+    arr = np.array(Image.open(path).convert("L"), dtype=np.uint8)
     mask = arr < THRESHOLD
     ys, xs = np.where(mask)
     if ys.size == 0 or xs.size == 0:
-        raise ValueError("Не удалось отрисовать строку для сегментации")
+        raise ValueError("Исходный BMP не содержит чёрных пикселей строки")
 
     cropped = arr[int(ys.min()): int(ys.max()) + 1, int(xs.min()): int(xs.max()) + 1]
     return np.where(cropped < THRESHOLD, 0, 255).astype(np.uint8)
@@ -123,10 +122,6 @@ def render_symbol(symbol: str, font: ImageFont.FreeTypeFont) -> np.ndarray:
 
     cropped = arr[top:bottom, left:right]
     return np.where(cropped < THRESHOLD, 0, 255).astype(np.uint8)
-
-
-def save_monochrome_bmp(binary: np.ndarray, path: Path) -> None:
-    Image.fromarray(binary, mode="L").convert("1").save(path)
 
 
 def save_binary_png(binary: np.ndarray, path: Path) -> None:
@@ -367,7 +362,6 @@ def run_pipeline() -> dict[str, str | int]:
         ]
     )
 
-    clear_files(SOURCE_DIR, "*.bmp")
     clear_files(PREVIEW_DIR, "*.png")
     clear_files(PROFILES_DIR, "*.png")
     clear_files(SEGMENTS_DIR, "*.png")
@@ -378,9 +372,8 @@ def run_pipeline() -> dict[str, str | int]:
 
     font = load_font()
 
-    line_binary = render_phrase_line(PHRASE, font)
-    source_bmp_path = SOURCE_DIR / "phrase_variant17.bmp"
-    save_monochrome_bmp(line_binary, source_bmp_path)
+    line_binary = load_phrase_bmp(SOURCE_BMP_PATH)
+    source_bmp_path = SOURCE_BMP_PATH
     save_binary_png(add_preview_padding(line_binary), PREVIEW_DIR / "phrase_preview.png")
 
     horizontal_profile, vertical_profile = compute_profiles(line_binary)
