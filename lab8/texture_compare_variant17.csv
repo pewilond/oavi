@@ -1,0 +1,4 @@
+﻿image;entropy_original;entropy_contrast;uniformity_original;uniformity_contrast;lbp_chi_square_distance
+city;6.559433;6.520404;0.027307;0.03019;0.000631
+page_01;6.961132;6.964277;0.018928;0.018828;3.4e-05
+page_02;6.890581;6.885881;0.01691;0.017076;0.000208

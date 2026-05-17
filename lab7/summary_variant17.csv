@@ -1,0 +1,3 @@
+﻿mode;expected;recognized;recognized_with_spaces;errors;accuracy_percent;hypotheses_path;csv_path
+Исходная строка;сәулемменсенісүйемін;сәулеммеисеиісүйеміи;сәулем меи сеиі сүйеміи;3;85.0;hypotheses_variant17.txt;classification_main.csv
+Эксперимент, кегль 58;сәулемменсенісүйемін;сәулемменсенісүйемін;сәулем мен сені сүйемін;0;100.0;hypotheses_variant17_font58.txt;classification_experiment_font58.csv
