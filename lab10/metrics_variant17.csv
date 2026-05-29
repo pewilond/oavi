@@ -1,0 +1,21 @@
+﻿metric;value;unit
+variant;17;
+lab_variant;Вариант 3. Анализатор речи;
+sample_rate;48000;Hz
+channels;1;
+phone_duration;14.165;s
+alphabet_size;11;files
+truth_count;12;tokens
+segment_count;12;segments
+segmentation_threshold;0.00378387;RMS
+recognized_sequence;plus 7 3 1 7 8 6 4 5 4 4 1;
+expected_sequence;plus 7 9 1 7 8 6 4 5 4 4 1;
+errors;1;tokens
+accuracy;91.667;%
+mean_confidence;21.281;%
+min_confidence;0.658;%
+feature_frame;1200;samples
+feature_hop;480;samples
+n_fft;2048;samples
+mel_bands;32;
+mfcc_count;13;coefficients

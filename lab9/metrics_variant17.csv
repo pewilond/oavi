@@ -1,0 +1,29 @@
+﻿metric;value;unit
+variant;17;
+instrument;синтезированное фортепиано;
+note;A4 / Ля первой октавы;
+sample_rate;48000;Hz
+channels;1;
+duration;6.2;s
+window;Hann;
+window_size;4096;samples
+hop_size;1024;samples
+n_fft;8192;samples
+frequency_step;5.859;Hz
+active_start;1.45;s
+active_end;4.6;s
+noise_file_rms;0.00348898;amplitude
+background_rms_before;0.00261479;amplitude
+background_rms_after;0.00031215;amplitude
+active_rms_before;0.08680486;amplitude
+active_rms_after;0.08661864;amplitude
+background_reduction;18.461;dB
+snr_before;30.422;dB
+snr_after;48.865;dB
+snr_gain;18.443;dB
+note_peak_frequency;439.453;Hz
+dominant_frequency;439.453;Hz
+expected_frequency;440.0;Hz
+note_frequency_error;-0.547;Hz
+top_energy_time;1.65;s
+top_energy_frequency;425.0;Hz
